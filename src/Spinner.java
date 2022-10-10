@@ -27,7 +27,7 @@ public class Spinner {
 		String result = "";
 		while(!done){
 			double high = probabilities[index] + low;
-			if(spinNumber>= low && spinNumber< high){
+			if(spinNumber > low && spinNumber< high){
 				result = sections[index];
 				done = true;
 			}

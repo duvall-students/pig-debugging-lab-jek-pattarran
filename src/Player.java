@@ -7,6 +7,10 @@ public abstract class Player {
 	
 	public Player(String myName){
 		myScore = 0;
+		this.myName = myName; 
+//		<<no code to comment out>>
+//		^^ (Bug 5) make sure playerName can be accessed from the subclass by 
+//		           declaring the value of myName 
 	}
 	
 	// Each player must provide logic for deciding to roll again

@@ -11,6 +11,12 @@ public class Game {
 	public Game(){
 		player1 = new GUIPlayer();
 		player2 = new ComputerPlayer();
+		
+//		Player player1 = new GUIPlayer();
+//		Player player2 = new ComputerPlayer();
+//		^^ (Bug 1) change player1 and player2 to references instead of declaring new variables; 
+//		   allows Winner method to access player privately. 
+		
 		die = new Random();
 		spinner = new Spinner();
 	}
@@ -23,7 +29,17 @@ public class Game {
 		Player whoseTurn = player1;
 		while(!winner()){
 			int roundScore = takeATurn(whoseTurn);
-			whoseTurn.addToScore(roundScore);
+//			whoseTurn.addToScore(roundScore);
+			
+			if (roundScore == -1) {
+				whoseTurn.resetScore();
+			}
+			if (roundScore != -1) {
+				whoseTurn.addToScore(roundScore);
+			}
+			
+//			^^ (Bug 6) Handles reset in actual gameplay 
+			
 			// Switch whose turn it is.
 			if(whoseTurn == player1){
 				whoseTurn = player2;
@@ -59,7 +75,8 @@ public class Game {
 			else if(spin == LOSER_SPIN.toUpperCase()){
 				System.out.println("Too bad!  Lose all your points.");
 				whoseTurn.resetScore();
-				return 0;
+				return -1;
+//				^^ (Bug 6) change return value to -1 so score can be reset in playGame method
 			}
 			else{
 				roundScore = roundScore + roll;
@@ -73,13 +90,16 @@ public class Game {
 	// True if one of the players has won the game.
 	public boolean winner(){
 		return player1.hasWon() || player2.hasWon();
+//		return player1.hasWon() && player2.hasWon();
+//		(Bug 4) Allows game to end if either player1 or player2 has won, instead 
+//		of both. 
 	}
 	
 	/* 
 	 * These methods are for printing messages to the console to follow the game.
 	 */
 	public void printStartRoundMessage(Player whoseTurn){
-		System.out.println("New Round!  "+ whoseTurn.getName()+" 's turn."); 
+		System.out.println("New Round!  "+ whoseTurn.getName()+"'s turn."); 
 		System.out.println(player1);
 		System.out.println(player2);
 	}

@@ -6,6 +6,7 @@ public class Game {
 	private Random die;
 	private Spinner spinner;
 	private final String LOSER_SPIN = "grunt";
+	
 	private final int LOSER_ROLL = 1;
 	
 	public Game(){
@@ -29,16 +30,7 @@ public class Game {
 		Player whoseTurn = player1;
 		while(!winner()){
 			int roundScore = takeATurn(whoseTurn);
-//			whoseTurn.addToScore(roundScore);
-			
-			if (roundScore == -1) {
-				whoseTurn.resetScore();
-			}
-			if (roundScore != -1) {
-				whoseTurn.addToScore(roundScore);
-			}
-			
-//			^^ (Bug 6) Handles reset in actual gameplay 
+			whoseTurn.addToScore(roundScore);
 			
 			// Switch whose turn it is.
 			if(whoseTurn == player1){
@@ -72,11 +64,13 @@ public class Game {
 				System.out.println("Lose a turn.");
 				return 0;
 			}
-			else if(spin == LOSER_SPIN.toUpperCase()){
+			else if(spin.equals(LOSER_SPIN)){
+//			else if(spin == LOSER_SPIN.toUpperCase()){
+//				^^ (Bug 6) .equals is a better way to compare strings than '==' 
+				
 				System.out.println("Too bad!  Lose all your points.");
 				whoseTurn.resetScore();
-				return -1;
-//				^^ (Bug 6) change return value to -1 so score can be reset in playGame method
+				return 0; 
 			}
 			else{
 				roundScore = roundScore + roll;

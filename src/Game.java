@@ -56,17 +56,27 @@ public class Game {
 		boolean keepGoing = true;
 		printStartRoundMessage(whoseTurn);
 		while(keepGoing){
-			int roll = die.nextInt(7);
+			int roll = 1 + die.nextInt(6);
+//			int roll = die.nextInt(7);
+//			(Bug 3) Makes sure roll is above 0 and below 7
 			String spin = spinner.spin();
 			System.out.println(roll+ " "+ spin);
+			
+			
+			if(roll == LOSER_ROLL && spin.equals(LOSER_SPIN.toUpperCase())){
+					System.out.println("Too bad!  Lose all your points.");
+					whoseTurn.resetScore();
+					return 0; 
+				}
+//			^^ (Bug 7) Add another if statement handling both cases happening at the same time
 			
 			if(roll == LOSER_ROLL){
 				System.out.println("Lose a turn.");
 				return 0;
 			}
-			else if(spin.equals(LOSER_SPIN)){
+			if(spin.equals(LOSER_SPIN.toUpperCase())){
 //			else if(spin == LOSER_SPIN.toUpperCase()){
-//				^^ (Bug 6) .equals is a better way to compare strings than '==' 
+//				^^ (Bug 6) .equals is a better way to compare strings than '=='. removing Else if also allows both if statements to be valid
 				
 				System.out.println("Too bad!  Lose all your points.");
 				whoseTurn.resetScore();
